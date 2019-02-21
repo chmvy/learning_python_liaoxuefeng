@@ -1,25 +1,16 @@
-import asyncio
+from turtle import *
 
-from aiohttp import web
+def drawStar(x, y):
+    pu()
+    goto(x, y)
+    pd()
+    # set heading: 0
+    seth(0)
+    for i in range(5):
+        fd(40)
+        rt(144)
 
-async def index(request):
-    await asyncio.sleep(0.5)
-    return web.Response(body=b'<h1>Index</h1>')
+for x in range(0, 250, 50):
+    drawStar(x, 0)
 
-async def hello(request):
-    await asyncio.sleep(0.5)
-    text = '<h1>hello, %s!</h1>' % request.match_info['name']
-    return web.Response(body=text.encode('utf-8'))
-
-async def init(loop):
-    app = web.Application(loop=loop)
-    app.router.add_route('GET', '/', index)
-    app.router.add_route('GET', '/hello/{name}', hello)
-    # noinspection PyDeprecation
-    srv = await loop.create_server(app.make_handler(), '127.0.0.1', 8000)
-    print('Server started at http://127.0.0.1:8000...')
-    return srv
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(init(loop))
-loop.run_forever()
+done()
